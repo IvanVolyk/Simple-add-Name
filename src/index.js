@@ -14,12 +14,18 @@ class App extends Component {
 			users: [{ id: state.users.length + 1, name }, ...state.users]
 		}));
 	};
+
+	addBottom = name => {
+		this.setState(state => ({
+			users: [...state.users, { id: state.users.length + 1, name }]
+		}));
+	};
 	
 	render() {
 		return (
 			<Fragment>
 				<Users names={this.state.users}/>
-				<AddName addTop={this.addTop} />
+				<AddName addTop={this.addTop} addBottom={this.addBottom}/>
 			</Fragment>
 			);
 	}
@@ -36,12 +42,21 @@ class AddName extends PureComponent {
 		this.props.addTop(this.input.value);
 		this.input.value = "";
 	};
+
+	addToBottom = () => {
+		if (!this.input.value.trim()) {
+			return;
+		}
+		this.props.addBottom(this.input.value);
+		this.input.value = "";
+	};
 	
 	render() {
 		return(
 			<Fragment>
 				<input ref={this.getInput} />
 				<button onClick={this.addToTop}>Add to TOP</button>
+				<button onClick={this.addToBottom}>Add to BOTTOM</button>
 				
 			</Fragment>
 		);
